@@ -1,151 +1,44 @@
 package com.svichkar;
 
 import static com.svichkar.helper.AsyncHelper.proceedAsync;
-import static com.svichkar.helper.AsyncHelper.proceedAsyncCF;
 
 public class Main
 {
   public static void main(String[] args) throws Exception
   {
-    new Thread(() -> System.out.println("Started " + Thread.currentThread().getName())).start();
+    System.out.println("Main Task" + " "
+        + Thread.currentThread().getName() + " started");
 
-    proceedAsync(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 1 " + Thread.currentThread().getName());
-    });
-
-    proceedAsync(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 2 " + Thread.currentThread().getName());
-    });
-
-    int i = 5;
-    while(i-- != 0) {
-      new Thread(() -> proceedAsync(() -> {
+    int i = 0;
+    while (i++ != 1000)
+    {
+      int finalI = i;
+      System.out.println("Before starting task" + finalI + " " + Thread.currentThread().getName());
+      proceedAsync(() -> {
+        System.out.println("Async Task " + finalI + " "
+            + Thread.currentThread().getName() + " started");
         try
         {
-          Thread.sleep(1000L);
+          Thread.sleep(15_000L);
         }
         catch (InterruptedException e)
         {
           e.printStackTrace();
         }
-        System.out.println("Async Task 0 " + Thread.currentThread().getName());
-      })).start();
+        System.out.println("Async Task " + finalI + " "
+            + Thread.currentThread().getName() + " finished");
+      });
+      System.out.println("After starting task" + finalI + " " + Thread.currentThread().getName());
     }
 
-    proceedAsync(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 3 " + Thread.currentThread().getName());
-    });
+    System.out.println("Main Task" + " "
+        + Thread.currentThread().getName() + " continued");
 
-    proceedAsync(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 4 " + Thread.currentThread().getName());
-    });
+    Thread.sleep(600_000L);
 
-    proceedAsync(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 5 " + Thread.currentThread().getName());
-    });
+    System.out.println("Main Task" + " "
+        + Thread.currentThread().getName() + " finished");
 
-
-    /*
-
-    proceedAsyncCF(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 1 " + Thread.currentThread().getName());
-    });
-
-    proceedAsyncCF(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 2 " + Thread.currentThread().getName());
-    });
-
-    proceedAsyncCF(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 3 " + Thread.currentThread().getName());
-    });
-
-    proceedAsyncCF(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 4 " + Thread.currentThread().getName());
-    });
-
-    proceedAsyncCF(() -> {
-      try
-      {
-        Thread.sleep(5000L);
-      }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
-      System.out.println("Async Task 5 " + Thread.currentThread().getName());
-    });
-*/
+    System.exit(0);
   }
 }

@@ -6,21 +6,13 @@ import java.util.concurrent.Executors;
 
 public class AsyncHelper
 {
-  private static ExecutorService pool = Executors.newSingleThreadExecutor();
+  private static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
   public static void proceedAsync(Runnable runnable)
   {
-    pool.submit(() -> {
-      System.out.println(Thread.currentThread().getName());
+    executorService.submit(() -> {
       runnable.run();
-    });
-  }
-
-  public static void proceedAsyncCF(Runnable runnable)
-  {
-    CompletableFuture.runAsync(() -> {
-      System.out.println(Thread.currentThread().getName());
-      runnable.run();
+      System.out.println("After " + Thread.currentThread().getName());
     });
   }
 }
